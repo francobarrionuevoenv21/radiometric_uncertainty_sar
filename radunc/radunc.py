@@ -274,7 +274,7 @@ def get_df_stats(tif_path, samples_path, samples_col, back_val):
         vals = dict_samp_val[samp]
         mean = np.nanmean(vals)
         std = np.nanstd(vals)
-        enl = round((mean / std) ** 2, 2)
+        enl = (mean / std) ** 2
 
         list_samp.append(samp)
         list_mean.append(mean)
