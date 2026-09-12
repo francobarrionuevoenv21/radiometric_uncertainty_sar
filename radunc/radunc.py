@@ -225,7 +225,9 @@ def get_unct(enl, p):
     """
     error_dBs, probabilities = error_vs_probability(enl)
     
-    print(error_dBs, probabilities)
+    #print(error_dBs, probabilities)
+    
+    print(p)
 
     idx = np.abs(probabilities - p).argmin()  # index of nearest probability value (shortest absolute distance)
     error_dB = error_dBs[idx]
