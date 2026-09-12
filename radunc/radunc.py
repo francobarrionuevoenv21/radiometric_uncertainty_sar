@@ -223,6 +223,7 @@ def get_unct(enl, p):
         may differ slightly from `p` due to the discrete grid used by
         `error_vs_probability`.
     """
+    
     error_dBs, probabilities = error_vs_probability(enl)
 
     idx = np.abs(probabilities - p/100).argmin()  # index of nearest probability value (shortest absolute distance)
@@ -260,13 +261,8 @@ def get_df_stats(tif_path, samples_path, samples_col, back_val):
     pandas.DataFrame
         DataFrame with one row per sample, containing columns:
         'Sample', 'Mean', 'Std', and 'ENL'.
-
-    Notes
-    -----
-    Samples with zero standard deviation will produce an infinite ENL
-    (division by zero); this is not currently handled and will
-    propagate into `get_unct` / `error_vs_probability` downstream.
     """
+    
     dict_samp_val = clip_tif(tif_path, samples_path, samples_col, back_val=back_val)
 
     list_samp = []
@@ -278,7 +274,7 @@ def get_df_stats(tif_path, samples_path, samples_col, back_val):
         vals = dict_samp_val[samp]
         mean = np.nanmean(vals)
         std = np.nanstd(vals)
-        enl = round((mean / std) ** 2, 1)
+        enl = round((mean / std) ** 2, 2)
 
         list_samp.append(samp)
         list_mean.append(mean)
@@ -321,12 +317,8 @@ def get_df_ru(df_samp_stats, p):
         - f'Real. Prob. {p} [%]': the actual probability achieved at
           that error_dB (may differ slightly from `p` due to the
           discrete grid used by `get_unct`).
-
-    Notes
-    -----
-    The DataFrame is modified in place (columns are added directly to
-    `dict_samp_stats`), and the same object is also returned.
     """
+    
     list_incrad = []
     list_realprob = []
 
