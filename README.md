@@ -67,9 +67,9 @@ confidence probability.
 4. **Import and use it**
 
 
-> 💡 Tip: some geospatial dependencies (`rasterio`, `geopandas`) may take a
-> minute to install in Colab due to their compiled dependencies (GDAL). This
-> is expected — just wait for the install cell to finish before importing.
+### Acknowledgements
+
+The package was developed during the course Applications of Synthetic Aperture Radar Images dictated by Dra. Mercedes Salvia as part of the Master in Spatial Information Applications curricula at the Gulich Institute during August-September 2026. The images and samples vector used for testing were provided by Prof. Salvia. 
 
 ---
 
@@ -138,7 +138,6 @@ radiométrica (en dB) asociado a una probabilidad de confianza objetivo.
 4. **Importar y usar el paquete**
 
 
-> 💡 Sugerencia: algunas dependencias geoespaciales (`rasterio`, `geopandas`)
-> pueden tardar un minuto en instalarse en Colab debido a sus dependencias
-> compiladas (GDAL). Esto es esperable — solo hay que esperar a que termine
-> la celda de instalación antes de importar el paquete.
+### Agradecimientos
+
+El paquete fue desarrollado durante el cursado de la materia Aplicaciones de las imágenes de radar de apertura sintética dictado por la Dra. Mercedes Salvia, materia que forma parte de la currícula de la Maestría en aplicaciones de información espacial del Instituto Gulich durante agosto-septiembre del 2026. La imágen, asi como el vector de muestras para usadas para el testeo fueron provistas para la Dra. Salvia. 

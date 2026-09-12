@@ -15,7 +15,7 @@ Pipeline overview
 1. `read_check_vector`   -> read samples, align CRS with raster
 2. `clip_tif`             -> clip raster by each polygon, extract valid values
 3. `get_dict_stats`       -> per-sample Mean / Std / ENL
-4. `error_vs_probability` -> probability curve (error_dB vs probability) for a given ENL
+4. `error_vs_probability` -> error in dB and probability for a given ENL
 5. `plot_error_prob` -> probability plot (error_dB vs probability) for a given ENL
 6. `get_unct`             -> nearest error_dB bound for a target probability
 7. `get_dict_ru`          -> add uncertainty columns to the stats table
@@ -118,7 +118,7 @@ def clip_tif(tif_path, samples_path, samples_col, back_val=0):
         for idx, row in gdf_samples.iterrows():
             geom = [row.geometry]  # mask() expects a list of geometries
             #geom = row.geometry  # mask() expects a list of geometries
-            out_image, out_transform = mask(src, geom, crop=True)
+            out_image, out_transform = mask(src, geom, all_touched=True, crop=True)
 
             x = out_image
             x[0][x[0] == back_val] = np.nan
@@ -349,7 +349,7 @@ def get_df_ru(df_samp_stats, p):
     return df_samp_stats
 
 
-def radunc(tif_path, samples_path, samples_col, list_probs, back_val=0, output='output'):
+def radunc(tif_path, samples_path, samples_col, list_ci, back_val=0, output='output'):
     """
     Compute per-sample radiometric uncertainty statistics and export
     the results to an Excel file.
@@ -385,11 +385,14 @@ def radunc(tif_path, samples_path, samples_col, list_probs, back_val=0, output='
         'Std', 'ENL', and — for each probability in `list_probs` — a
         'Rad. Unc. {p} [dB]' and 'Real. Prob. {p} [%]' column pair.
     """
-    df_samp_stats = get_df_stats(tif_path, samples_path, samples_col, back_val=back_val)
+    df_samp_ru = get_df_stats(tif_path, samples_path, samples_col, back_val=back_val)
 
-    for p in list_probs:
-        df_samp_stats = get_df_ru(df_samp_stats, p)
+    for p in list_ci:
+        df_samp_ru = get_df_ru(df_samp_ru, p)
 
-    df_samp_stats.to_excel(f'{output}.xlsx', index=False)
+    df_samp_ru.to_excel(f'{output}.xlsx', index=False)
+    
+    print('\ņ')
+    print('Summary table was exported to: {output}.xlsx ✅')
 
-    return df_samp_stats
+    return df_samp_ru
