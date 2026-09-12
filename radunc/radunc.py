@@ -224,12 +224,8 @@ def get_unct(enl, p):
         `error_vs_probability`.
     """
     error_dBs, probabilities = error_vs_probability(enl)
-    
-    #print(error_dBs, probabilities)
-    
-    print(p)
 
-    idx = np.abs(probabilities - p).argmin()  # index of nearest probability value (shortest absolute distance)
+    idx = np.abs(probabilities - p/100).argmin()  # index of nearest probability value (shortest absolute distance)
     error_dB = error_dBs[idx]
     prob_near = probabilities[idx]
 
@@ -280,9 +276,9 @@ def get_df_stats(tif_path, samples_path, samples_col, back_val):
 
     for samp in dict_samp_val.keys():
         vals = dict_samp_val[samp]
-        mean = np.nanmean(vals)
-        std = np.nanstd(vals)
-        enl = (mean / std) ** 2
+        mean = round(np.nanmean(vals), 3)
+        std = round(np.nanstd(vals), 3)
+        enl = round((mean / std) ** 2, 1)
 
         list_samp.append(samp)
         list_mean.append(mean)
@@ -335,7 +331,7 @@ def get_df_ru(df_samp_stats, p):
     list_realprob = []
 
     for idx, row in df_samp_stats.iterrows():
-        error_dB, prob_near = get_unct(row['ENL'], p / 100)
+        error_dB, prob_near = get_unct(row['ENL'], p)
 
         list_incrad.append(round(error_dB, 2))
         list_realprob.append(round(prob_near*100, 2))
