@@ -222,15 +222,10 @@ def get_unct(enl, p):
         The actual (nearest) probability achieved at `error_dB`, which
         may differ slightly from `p` due to the discrete grid used by
         `error_vs_probability`.
-
-    Notes
-    -----
-    This is a nearest-neighbor lookup, not an exact inverse: precision
-    is limited by `error_vs_probability`'s `stepError_dB` grid
-    resolution. For an exact (continuous) inverse, use a root-finder
-    (e.g., `scipy.optimize.brentq`) instead.
     """
     error_dBs, probabilities = error_vs_probability(enl)
+    
+    print(error_dBs, probabilities)
 
     idx = np.abs(probabilities - p).argmin()  # index of nearest probability value (shortest absolute distance)
     error_dB = error_dBs[idx]
@@ -391,7 +386,6 @@ def radunc(tif_path, samples_path, samples_col, list_ci, back_val=0, output='out
         df_samp_ru = get_df_ru(df_samp_ru, p)
         
         
-
     df_samp_ru.to_excel(f'../../{output}.xlsx', index=False)
     
     print(f'\nSummary table was correctly exported as: {output}.xlsx ✅')
