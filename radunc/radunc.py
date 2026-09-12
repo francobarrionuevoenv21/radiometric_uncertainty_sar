@@ -389,10 +389,11 @@ def radunc(tif_path, samples_path, samples_col, list_ci, back_val=0, output='out
 
     for p in list_ci:
         df_samp_ru = get_df_ru(df_samp_ru, p)
+        
+        
 
-    df_samp_ru.to_excel(f'{output}.xlsx', index=False)
+    df_samp_ru.to_excel(f'../../{output}.xlsx', index=False)
     
-    print('\ņ')
-    print('Summary table was exported to: {output}.xlsx ✅')
+    print(f'\nSummary table was correctly exported as: {output}.xlsx ✅')
 
     return df_samp_ru
