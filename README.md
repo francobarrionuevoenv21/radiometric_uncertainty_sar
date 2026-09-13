@@ -1,4 +1,4 @@
-# Radiometric Uncertainty / Incertidumbre Radiométrica
+# Radiometric Uncertainty SAR
 
 ---
 
@@ -11,18 +11,18 @@ by each polygon, computes per-sample statistics (mean, standard deviation, ENL),
 and estimates the radiometric uncertainty bound (in dB) associated with a target
 confidence probability.
 
-### Installation — Local
+### Installation and Use
 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/<your-username>/<your-repo>.git
+   git clone https://github.com/francobarrionuevoenv21/radiometric_uncertainty_sar.git
    ```
 
 2. **Move into the folder containing the `.py` file**
 
    ```bash
-   cd <your-repo>/radiometric_uncertainty
+   cd radiometric_uncertainty_sar/radunc
    ```
 
 3. **Install the requirements**
@@ -37,107 +37,21 @@ confidence probability.
    from radunc import radunc as rdc
 
    df = rdc(
-       tif_path="raster.tif",
-       samples_path="samples.shp",
-       samples_col="col_samples_name",
-       list_probs=[90, 95, 99],
+       tif_path="raster.tif", # (1, n, m) raster, it means one band or polarization
+       samples_path="samples.shp", # Vector with homogeneus samples (every vector format readable by geopandas allowed)
+       samples_col="col_samples_name", # Column with samples labels in the vector file
+       list_ic=[90, 95, 99], # List with the confidence intervals to compute for each ENL
    )
    ```
 
-### Installation — Google Colab
+### Output
 
-1. **Clone the repository** (run this in a Colab cell)
+A Pandas dataframe summarizing the backscatering coefficient ($\sigma^{0}$) mean value, standard deviation value, ENL, radiometric uncertainty and the true confidence interval associated to the uncertainty computed for each sample contained in the vector file. It is also generated .xlsx file exported as defaul as *output.xlsx*.
 
-   ```python
-   !git clone https://github.com/<your-username>/<your-repo>.git
-   ```
-
-2. **Move into the folder containing the `.py` file**
-
-   ```python
-   %cd <your-repo>/radiometric_uncertainty
-   ```
-
-3. **Install the requirements**
-
-   ```python
-   !pip install -r requirements.txt
-   ```
-
-4. **Import and use it**
-
+```
+NOTE: Since the method provides the nearest neighbour confidence interval to the target, the output also provides the true value for verification. 
+```
 
 ### Acknowledgements
 
 The package was developed during the course Applications of Synthetic Aperture Radar Images dictated by Dra. Mercedes Salvia as part of the Master in Spatial Information Applications curricula at the Gulich Institute during August-September 2026. The images and samples vector used for testing were provided by Prof. Salvia. 
-
----
-
-### Descripción
-
-`radiometric_uncertainty_sar` es un pequeño paquete de Python para estimar la
-**incertidumbre radiométrica** en imágenes SAR a partir del **Número Equivalente
-de Looks (ENL)**. Dado un raster (`.tif`) y un conjunto de polígonos de muestra
-vectoriales, recorta el raster según cada polígono, calcula estadísticas por
-muestra (media, desvío estándar, ENL), y estima el límite de incertidumbre
-radiométrica (en dB) asociado a una probabilidad de confianza objetivo.
-
-### Instalación — Local
-
-1. **Clonar el repositorio**
-
-   ```bash
-   git clone https://github.com/<tu-usuario>/<tu-repo>.git
-   ```
-
-2. **Ingresar a la carpeta donde está el archivo `.py`**
-
-   ```bash
-   cd <tu-repo>/radiometric_uncertainty
-   ```
-
-3. **Instalar los requerimientos**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Importar y usar el paquete en tu script o notebook**
-
-   ```python
-   from radunc import radunc as rdc
-
-   df = rdc(
-       tif_path="raster.tif",
-       samples_path="samples.shp",
-       samples_col="col_samples_name",
-       list_probs=[90, 95, 99],
-   )
-   ```
-
-### Instalación — Google Colab
-
-1. **Clonar el repositorio** (ejecutar en una celda de Colab)
-
-   ```python
-   !git clone https://github.com/<tu-usuario>/<tu-repo>.git
-   ```
-
-2. **Ingresar a la carpeta donde está el archivo `.py`**
-
-   ```python
-   %cd <tu-repo>/radiometric_uncertainty
-   ```
-
-3. **Instalar los requerimientos**
-
-   ```python
-   !pip install -r requirements.txt
-   ```
-
-4. **Importar y usar el paquete**
-
-
-### Agradecimientos
-
-El paquete fue desarrollado durante el cursado de la materia Aplicaciones de las imágenes de radar de apertura sintética dictado por la Dra. Mercedes Salvia, materia que forma parte de la currícula de la Maestría en aplicaciones de información espacial del Instituto Gulich durante agosto-septiembre del 2026. La imágen, asi como el vector de muestras para usadas para el testeo fueron provistas para la Dra. Salvia. 
