@@ -131,7 +131,7 @@ def clip_tif(tif_path, samples_path, samples_col, back_val=0):
 
 def error_vs_probability(enl, minError_dB=0.1, maxError_dB=4, stepError_dB=0.01):
     """
-    For a given ENL, compute probability for a range of error_dB values.
+    For a given ENL, compute the confidence interval as probability for a range of error_dB values.
 
     Parameters
     ----------
@@ -145,7 +145,7 @@ def error_vs_probability(enl, minError_dB=0.1, maxError_dB=4, stepError_dB=0.01)
     error_dBs : ndarray
         The error_dB values evaluated.
     probabilities : ndarray
-        The corresponding probability for each error_dB.
+        The corresponding confidence interval for each error_dB.
     """
     error_dBs = np.arange(minError_dB, maxError_dB + 1e-9, stepError_dB)
 
@@ -156,7 +156,7 @@ def error_vs_probability(enl, minError_dB=0.1, maxError_dB=4, stepError_dB=0.01)
 
     return error_dBs, probabilities
 
-def plot_error_prob(enl, figsize=(10, 4)):
+def plot_error_prob(enl, figsize=(10, 4), thresh=0.45):
     """
     Plot the probability vs. radiometric uncertainty (error_dB) curve
     for a given ENL.
@@ -185,18 +185,18 @@ def plot_error_prob(enl, figsize=(10, 4)):
 
     fig, ax = plt.subplots(figsize=figsize)
 
-    mask = probabilities > 0.45
+    mask = probabilities > thresh
     ax.plot(error_dBs[mask], probabilities[mask] * 100, color='red')
-    ax.set_title(f'Probability vs Radiometric Uncertainty - ENL:{enl}', fontsize=14)
+    ax.set_title(f'Confidence Interval vs Radiometric Uncertainty - ENL:{enl}', fontsize=14)
     ax.set_xlabel('Radiometric Uncertainty (dB)', fontsize=12)
-    ax.set_ylabel('Probability (%)', fontsize=12)
+    ax.set_ylabel('Confidence Interval (%)', fontsize=12)
 
     return fig, ax
 
 
 def get_unct(enl, p):
     """
-    Get the error bound (in dB) corresponding to a target probability,
+    Get the error bound (in dB) corresponding to a target confidence interval (probability),
     for a given ENL, by nearest-neighbor lookup.
 
     Computes the probability curve for the given ENL over a range of
