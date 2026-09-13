@@ -48,9 +48,8 @@ confidence probability.
 
 A Pandas dataframe summarizing the backscatering coefficient ($\sigma^{0}$) mean value, standard deviation value, ENL, radiometric uncertainty and the true confidence interval associated to the uncertainty computed for each sample contained in the vector file. It is also generated .xlsx file exported as defaul as *output.xlsx*.
 
-```
-NOTE: Since the method provides the nearest neighbour confidence interval to the target, the output also provides the true value for verification. 
-```
+> 💡 NOTE: Since the method provides the nearest neighbour confidence interval to the target, the output also provides the true value for verification. 
+
 
 ### Acknowledgements
 
