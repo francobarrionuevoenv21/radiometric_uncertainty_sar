@@ -329,7 +329,7 @@ def get_df_ru(df_samp_stats, p):
         list_realprob.append(round(prob_near*100, 2))
 
     df_samp_stats[f'Rad. Unc. {p} [dB]'] = list_incrad
-    df_samp_stats[f'Real. Prob. {p} [%]'] = list_realprob
+    df_samp_stats[f'True CI {p} [%]'] = list_realprob
 
     return df_samp_stats
 
